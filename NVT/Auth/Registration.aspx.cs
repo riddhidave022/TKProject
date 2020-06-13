@@ -16,6 +16,8 @@ public partial class Auth_Reg : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
         string strcon = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+        //string pass1 = pass.Text;
+        //string pass2 = rpass.Text;
         SqlConnection con = new SqlConnection(strcon);
         con.Open();
         SqlCommand cmd = new SqlCommand("insert into CompanyMaster values(@cname,@num,@email,@passwd,1)", con);
@@ -25,16 +27,17 @@ public partial class Auth_Reg : System.Web.UI.Page
         cmd.Parameters.AddWithValue("passwd", pass.Text);
         int x=cmd.ExecuteNonQuery();
         con.Close();
-        if (x != 0)
-        {
-            string title = "Company Registration";
-            string body = "Company Registered successfully..!!";
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup('" + title + "', '" + body + "');", true);
-        }
+        //if(pass1==pass2)
+        //{
+            if (x != 0)
+            {
+                Response.Redirect("Login.aspx");
+            }
+       // }
     }
 
-    protected void CloseBtn_Click(object sender, EventArgs e)
+    protected void CheckBoxRequired_ServerValidate(object sender, ServerValidateEventArgs e)
     {
-        Response.Redirect("Login.aspx");
+        e.IsValid = ChckBox.Checked;
     }
 }

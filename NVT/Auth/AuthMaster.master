@@ -39,6 +39,7 @@
                 increaseArea: '20%' /* optional */
             });
         });
-</script>
+    </script>
+    
 </body>
 </html>

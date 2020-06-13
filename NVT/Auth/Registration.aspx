@@ -12,8 +12,18 @@
             $("#RegisterModal").modal("show");
         }
     </script>
+    <script type="text/javascript"> 
+        function CheckMyCheckBox(source, args) {
+            var elem = document.getElementById('<%= ChckBox.ClientID %>');
 
-
+            if (elem.checked) {
+                args.IsValid = true;
+            }
+            else {
+                args.IsValid = false;
+            }
+        }
+    </script>
     <div class="register-box">
         <div class="register-logo">
             <img src="../dist/img/logo.jpg" alt="Logo" />
@@ -28,28 +38,51 @@
                 <div class="form-group has-feedback">
                     <asp:TextBox CssClass="form-control" ID="cname" placeholder="Organization Name" runat="server"></asp:TextBox>
                     <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+                    <asp:RequiredFieldValidator ID="CnameValidator" runat="server" BorderColor="Red" ControlToValidate="cname">
+                    </asp:RequiredFieldValidator>
+                    <br />
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="cname" ErrorMessage="Enter valid company name" ForeColor="Red" ValidationExpression="[a-zA-Z0-9]*$">
+                    </asp:RegularExpressionValidator>
                 </div>
                 <div class="form-group has-feedback">
                     <asp:TextBox ID="num" CssClass="form-control" placeholder="Phone number" runat="server"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="NumberValidator" runat="server" ForeColor="Red" ControlToValidate="num">
+                            Phone Number is Required
+                    </asp:RequiredFieldValidator><br />
+                    <asp:RegularExpressionValidator ID="RegularExpression2" runat="server" ControlToValidate="num" ErrorMessage="Enter valid phone number" ForeColor="Red" ValidationExpression="[0-9]{13}">
+                    </asp:RegularExpressionValidator>
                     <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
                     <asp:TextBox ID="email" CssClass="form-control" placeholder="Corporate email only" runat="server"></asp:TextBox>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <asp:RequiredFieldValidator ID="EmailValidator" runat="server" ForeColor="Red" ControlToValidate="email">
+                        Email is Required
+                    </asp:RequiredFieldValidator>
                 </div>
                 <div class="form-group has-feedback">
                     <asp:TextBox ID="pass" CssClass="form-control" placeholder="Password" TextMode="Password" runat="server"></asp:TextBox>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <asp:RequiredFieldValidator ID="PasswordValidator" runat="server" ForeColor="Red" ControlToValidate="pass">
+                        Password is Required
+                    </asp:RequiredFieldValidator>
                 </div>
                 <div class="form-group has-feedback">
                     <asp:TextBox ID="rpass" CssClass="form-control" placeholder="Retype password" TextMode="Password" runat="server"></asp:TextBox>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <asp:RequiredFieldValidator ID="RPasswordValidator" runat="server" ForeColor="Red" ControlToValidate="rpass">
+                        Retype the Password
+                    </asp:RequiredFieldValidator><br />
+                    <asp:CompareValidator ID="PasswordCompare" ControlToValidate="rpass" ControlToCompare="pass" Type="String" Operator="Equal" runat="server" ForeColor="Red">
+                        Password do not match
+                    </asp:CompareValidator>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div>
-                            <asp:CheckBox runat="server" />
-                            <span style="font-size: medium; padding: 5px;">I agree to the <a href="#">terms</a></span>
+                            <asp:CheckBox ID="ChckBox" runat="server" />
+                            <span style="font-size: medium; padding: 5px;">I agree to the <a href="#">terms</a></span><br />
+                            <asp:CustomValidator runat="server" ID="CheckBoxRequired" ForeColor="Red" EnableClientScript="true" OnServerValidate="CheckBoxRequired_ServerValidate" ClientValidationFunction="CheckMyCheckBox" Text="Check the checkbox"></asp:CustomValidator>
                         </div>
                     </div>
                     <div class="col-xs-4">
@@ -57,31 +90,10 @@
                     </div>
                 </div>
             </div>
-            <br />
-            <a href="Login.aspx" class="text-center">I already have a account</a>
         </div>
+        <br />
+        <a href="Login.aspx" class="text-center">I already have a account</a>
     </div>
-    <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="RegisterLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">
-                                <asp:Label ID="lblTitle" runat="server" Text=""></asp:Label></h4>
-                        </div>
-                        <div class="modal-body">
-                            <asp:Label ID="lblBody" runat="server"></asp:Label>
-                        </div>
-                        <div class="modal-footer">
-                            <asp:Button ID="CloseBtn" CssClass="btn btn-primary btn-block btn-flat" OnClick="CloseBtn_Click"  aria-hidden="true" runat="server" Text="Close" />
-                        </div>
-                    </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-    </div>
+
 </asp:Content>
 
