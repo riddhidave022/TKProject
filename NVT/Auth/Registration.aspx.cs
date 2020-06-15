@@ -15,7 +15,7 @@ public partial class Auth_Reg : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        string strcon = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+        /*string strcon = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
         //string pass1 = pass.Text;
         //string pass2 = rpass.Text;
         SqlConnection con = new SqlConnection(strcon);
@@ -33,7 +33,8 @@ public partial class Auth_Reg : System.Web.UI.Page
             {
                 Response.Redirect("Login.aspx");
             }
-       // }
+        // }*/
+        ClientScript.RegisterStartupScript(GetType(), "Javascript", "javascript:validatecontrol(); ", true);
     }
 
     protected void CheckBoxRequired_ServerValidate(object sender, ServerValidateEventArgs e)
